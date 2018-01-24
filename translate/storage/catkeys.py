@@ -110,7 +110,10 @@ class CatkeysHeader(object):
                 value = header.get(key, "")
                 if value is None:
                     value = ""
-                self._header_dict[key] = unicode(value, "utf-8")
+                if six.PY2:
+                    self._header_dict[key] = unicode(value, "utf-8")
+                else:
+                    self._header_dict[key] = value
 
     def _create_default_header(self):
         """Create a default catkeys header"""
@@ -159,7 +162,10 @@ class CatkeysUnit(base.TranslationUnit):
             value = newdict.get(key, "")
             if value == None:
                 value = ""
-            self._dict[key] = unicode(value, "utf-8")
+            if six.PY2:
+                self._dict[key] = unicode(value, "utf-8")
+            else:
+                self._dict[key] = value
     dict = property(getdict, setdict)
 
     def _get_source_or_target(self, key):
@@ -298,7 +304,7 @@ class CatkeysFile(base.TranslationStore):
 
         def hashfun(string, startValue):
             h = startValue
-            array = string.decode('string_escape')
+            array = string.encode('utf-8')
 
             for byte in array:
                 value = ord(byte)
