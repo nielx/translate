@@ -55,6 +55,8 @@ class multistring(six.text_type):
         elif isinstance(otherstring, six.text_type):
             return cmp_compat(six.text_type(self), otherstring)
         elif isinstance(otherstring, bytes):
+            if six.PY2:
+                return cmp_compat(self.encode('utf-8'), otherstring)
             return cmp_compat(bytes(self), otherstring)
         elif isinstance(otherstring, list) and otherstring:
             return cmp_compat(self, multistring(otherstring))
