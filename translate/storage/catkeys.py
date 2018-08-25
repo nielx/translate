@@ -326,9 +326,9 @@ class CatkeysFile(base.TranslationStore):
         for unit in self.units:
             stringhash = hashfun(unit.dict["source"], 0)
             stringhash &= 0xFFFFFFFF
-            stringhash = hashfun(unit.dict["context"], stringhash)
+            stringhash = hashfun(unit.dict.get("context", ""), stringhash)
             stringhash &= 0xFFFFFFFF
-            stringhash = hashfun(unit.dict["comment"], stringhash)
+            stringhash = hashfun(unit.dict.get("comment", ""), stringhash)
             stringhash &= 0xFFFFFFFF
             fingerprint += stringhash
             fingerprint &= 0xFFFFFFFF
